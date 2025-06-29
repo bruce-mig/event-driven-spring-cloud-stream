@@ -20,8 +20,8 @@ public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String firstName;
-    private String lastName;
-    private LocalDate birthDate;
-    private String emailAddress;
+    private FirstName firstName;
+    private LastName lastName;
+    private BirthDate birthDate;
+    private EmailAddress emailAddress;
 }
