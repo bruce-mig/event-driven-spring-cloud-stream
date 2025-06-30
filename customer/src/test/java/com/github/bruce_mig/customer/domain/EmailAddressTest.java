@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 
 class EmailAddressTest {
+
     @Test
     @DisplayName("GIVEN a valid email WHEN create THEN email address is created")
     void of(){

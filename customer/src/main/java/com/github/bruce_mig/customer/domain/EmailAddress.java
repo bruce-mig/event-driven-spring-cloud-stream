@@ -20,13 +20,14 @@ public class EmailAddress {
         this.value = value;
     }
 
-    public static EmailAddress of(final String value){
+    public static EmailAddress of(String value){
         Objects.requireNonNull(value, "the email address cannot be null");
-        Assert.isTrue(value.isBlank(), " the email address cannot be empty");
-        var regexPattern = ""; // todo: add regex
+        Assert.isTrue(!value.isBlank(), " the email address cannot be empty");
+        var regexPattern = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@" +
+                "(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+
         boolean matches = Pattern.compile(regexPattern).matcher(value).matches();
         Assert.isTrue(matches, "invalid email address");
-
         return new EmailAddress(value);
     }
 }
