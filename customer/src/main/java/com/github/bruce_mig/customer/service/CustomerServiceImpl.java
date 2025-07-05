@@ -1,6 +1,7 @@
 package com.github.bruce_mig.customer.service;
 
 import com.github.bruce_mig.customer.domain.Customer;
+import com.github.bruce_mig.customer.domain.EmailAddress;
 import com.github.bruce_mig.customer.repository.CustomerRepository;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +15,16 @@ public class CustomerServiceImpl implements CustomerService{
     }
 
     @Override
-    public Customer create(Customer customer) {
+    public Customer create(final Customer customer) {
         return customerRepository.save(customer);
+    }
+
+    @Override
+    public void changeEmail(final Long customerId, final EmailAddress emailAddress) {
+        Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new IllegalArgumentException(String.format("Couldn't find a customr by id: %s", customerId)));
+        customer.changeEmail(emailAddress);
+        customerRepository.save(customer);
+
     }
 }
