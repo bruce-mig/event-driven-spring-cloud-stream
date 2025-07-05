@@ -1,9 +1,11 @@
 package com.github.bruce_mig.customer.domain;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.Assert;
 
 import java.time.LocalDate;
@@ -13,6 +15,8 @@ import java.util.Objects;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class BirthDate {
+
+    @Column(name = "birthDate")
     private LocalDate value;
 
     private BirthDate(LocalDate value){

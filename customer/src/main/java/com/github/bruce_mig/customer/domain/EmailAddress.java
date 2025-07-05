@@ -1,9 +1,11 @@
 package com.github.bruce_mig.customer.domain;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.Assert;
 
 import java.util.Objects;
@@ -14,6 +16,7 @@ import java.util.regex.Pattern;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class EmailAddress {
 
+    @Column(name = "emailAddress")
     private String value;
 
     private EmailAddress(String value){
