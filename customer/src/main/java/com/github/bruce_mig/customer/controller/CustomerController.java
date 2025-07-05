@@ -1,6 +1,7 @@
 package com.github.bruce_mig.customer.controller;
 
 import com.github.bruce_mig.customer.controller.dto.CustomerDto;
+import com.github.bruce_mig.customer.controller.mapper.CustomerMapper;
 import com.github.bruce_mig.customer.domain.*;
 import com.github.bruce_mig.customer.service.CustomerService;
 import jakarta.validation.Valid;
@@ -20,14 +21,10 @@ public class CustomerController {
 
     @PostMapping
     public ResponseEntity<Customer> create(@Valid @RequestBody CustomerDto customerDto){
-        FirstName firstName = FirstName.of(customerDto.firstName());
-        LastName lastName = LastName.of(customerDto.lastName());
-        BirthDate birthDate = BirthDate.of(customerDto.birthDate());
-        EmailAddress emailAddress = EmailAddress.of(customerDto.emailAddress());
 
-        Customer customer = Customer.create(firstName, lastName, birthDate, emailAddress);
-
+        Customer customer = CustomerMapper.mapToCustomer(customerDto);
         Customer createdCustomer = customerService.create(customer);
+
         return ResponseEntity.ok(createdCustomer); // dont expose domain model outside app
     }
 
