@@ -10,17 +10,14 @@ import org.springframework.stereotype.Service;
 public class CustomerServiceImpl implements CustomerService{
 
     private final CustomerRepository customerRepository;
-    private final StreamBridge streamBridge;
 
-    public CustomerServiceImpl(CustomerRepository customerRepository, StreamBridge streamBridge) {
+    public CustomerServiceImpl(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
-        this.streamBridge = streamBridge;
     }
 
     @Override
     public Customer create(final Customer customer) {
         Customer customerCreated = customerRepository.save(customer);
-        streamBridge.send("customer", customerCreated);
         return customerCreated;
     }
 
