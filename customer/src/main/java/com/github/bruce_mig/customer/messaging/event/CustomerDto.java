@@ -1,4 +1,4 @@
-package com.github.bruce_mig.customer.controller.dto;
+package com.github.bruce_mig.customer.messaging.event;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
