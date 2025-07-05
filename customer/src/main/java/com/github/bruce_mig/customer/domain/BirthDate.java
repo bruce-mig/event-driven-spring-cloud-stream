@@ -5,7 +5,6 @@ import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.Assert;
 
 import java.time.LocalDate;
@@ -25,7 +24,7 @@ public class BirthDate {
 
     public static BirthDate of(final LocalDate value){
         Objects.requireNonNull(value, "the birth date cannot be null");
-        Assert.isTrue(value.isAfter(LocalDate.now()), "the birth date should be in the past");
+        Assert.isTrue(value.isBefore(LocalDate.now()), "the birth date should be in the past");
         return new BirthDate(value);
     }
 }
