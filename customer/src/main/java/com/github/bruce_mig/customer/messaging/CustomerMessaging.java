@@ -2,13 +2,14 @@ package com.github.bruce_mig.customer.messaging;
 
 import com.github.bruce_mig.customer.domain.*;
 import com.github.bruce_mig.customer.service.CustomerService;
-import org.joda.time.LocalDate;
 import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Sinks;
 
 import java.util.function.Supplier;
 
-@Component
+@Configuration
 public class CustomerMessaging {
 
     private final CustomerService customerService;
@@ -18,17 +19,12 @@ public class CustomerMessaging {
     }
 
     @Bean
-    public Supplier<Customer> customerSupplier(){
-        return () ->  {
+    public Sinks.Many<Customer> customerProducer(){
+        return Sinks.many().replay().latest();
+    }
 
-            Customer customerCreated = Customer.create(
-                    FirstName.of("John"),
-                    LastName.of("Doe"),
-                    BirthDate.of(LocalDate.of(1985, 11, 30)),
-                    EmailAddress.of("jd@example.com")
-
-            );
-            return customerService.create(customerCreated);
-        };
+    @Bean
+    public Supplier<Flux<Customer>> customerSupplier(){
+        return () ->  customerProducer().asFlux();
     }
 }
