@@ -13,4 +13,19 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
+  cloud:
+    function:
+      definition: customerSupplier
+    stream:
+      bindings:
+        customerSupplier-out-0:
+          destination: customer-topic
+          customerSupplier-out-0:
+            producer:
+              configuration:
+                value:
+                  serializer: org.springframework.kafka.support.serializer.JsonSerializer
+        binder:
+          brokers:
+            - localhost:9092
 
