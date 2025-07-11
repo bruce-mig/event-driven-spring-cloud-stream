@@ -23,7 +23,7 @@ public class LastName {
 
     public static LastName of(final String value){
         Objects.requireNonNull(value, "the value cannot be null");
-        Assert.isTrue(value.isBlank(), "the value cannot be empty");
+        Assert.isTrue(!value.isBlank(), "the value cannot be empty");
         return new LastName(value);
     }
 }
