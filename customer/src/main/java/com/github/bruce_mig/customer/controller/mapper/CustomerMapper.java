@@ -10,7 +10,8 @@ public interface CustomerMapper {
         LastName lastName = LastName.of(customerDto.lastName());
         BirthDate birthDate = BirthDate.of(customerDto.birthDate());
         EmailAddress emailAddress = EmailAddress.of(customerDto.emailAddress());
+        SSN ssn = SSN.create(customerDto.ssn());
 
-        return Customer.create(firstName, lastName, birthDate, emailAddress);
+        return Customer.create(firstName, lastName, birthDate, emailAddress, ssn);
     }
 }

@@ -1,6 +1,5 @@
 package com.github.bruce_mig.customer.service;
 
-import com.github.bruce_mig.customer.controller.mapper.CustomerMapper;
 import com.github.bruce_mig.customer.domain.Customer;
 import com.github.bruce_mig.customer.domain.EmailAddress;
 import com.github.bruce_mig.customer.messaging.event.CustomerDto;
@@ -46,7 +45,7 @@ public class CustomerServiceImpl implements CustomerService{
                     customerCreated.getLastName().getValue(),
                     customerCreated.getBirthDate().getValue(),
                     customerCreated.getEmailAddress().getValue(),
-                    // todo: add ssn
+                    customerCreated.getSsn().getSsn()
                     );
         }
     }
