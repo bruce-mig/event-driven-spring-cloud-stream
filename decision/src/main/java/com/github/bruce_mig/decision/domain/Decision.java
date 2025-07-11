@@ -1,13 +1,11 @@
 package com.github.bruce_mig.decision.domain;
 
-import com.github.bruce_mig.decision.domain.enumerated.State;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.github.bruce_mig.decision.enumerated.State;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.time.LocalDate;
 import java.time.Period;
@@ -16,10 +14,12 @@ import java.time.temporal.ChronoUnit;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@ToString
 public class Decision {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Enumerated(EnumType.STRING)
     private State state;
     private SSN ssn;
 
