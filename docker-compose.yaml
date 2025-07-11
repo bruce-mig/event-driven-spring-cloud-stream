@@ -70,14 +70,15 @@ services:
       CONFLUENT_METRICS_TOPIC_REPLICATION: 1
       PORT: 9021
   mysql:
+    container_name: mysql
     image: mysql:9.3
     environment:
       MYSQL_ROOT_PASSWORD: $ROOT_PASS
       MYSQL_DATABASE: $DB_NAME
       MYSQL_USER: $DB_USER
       MYSQL_PASSWORD: $DB_PASS
-#    volumes:
-#      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - $DOCKER_NET
     ports:
