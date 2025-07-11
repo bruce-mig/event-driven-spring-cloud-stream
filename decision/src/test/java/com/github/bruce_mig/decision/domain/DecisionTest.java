@@ -1,12 +1,10 @@
 package com.github.bruce_mig.decision.domain;
 
-import com.github.bruce_mig.decision.domain.enumerated.State;
+import com.github.bruce_mig.decision.enumerated.State;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class DecisionTest {
 
