@@ -1,10 +1,8 @@
 package com.github.bruce_mig.customer.messaging;
 
-import com.github.bruce_mig.customer.domain.*;
-import com.github.bruce_mig.customer.messaging.event.CustomerEvent;
-import com.github.bruce_mig.customer.service.CustomerService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.messaging.Message;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Sinks;
 
@@ -13,19 +11,13 @@ import java.util.function.Supplier;
 @Configuration
 public class CustomerMessaging {
 
-    private final CustomerService customerService;
-
-    public CustomerMessaging(CustomerService customerService) {
-        this.customerService = customerService;
-    }
-
     @Bean
-    public Sinks.Many<CustomerEvent> customerProducer(){
+    public Sinks.Many<Message<?>> customerProducer(){
         return Sinks.many().replay().latest();
     }
 
     @Bean
-    public Supplier<Flux<CustomerEvent>> customerSupplier(){
+    public Supplier<Flux<Message<?>>> customerSupplier(){
         return () ->  customerProducer().asFlux();
     }
 }
