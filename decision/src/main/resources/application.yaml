@@ -21,10 +21,16 @@ spring:
         processCustomerCreated-in-0:
           destination: customer-topic
           group: decision-microservice
+          consumer:
+            max-attempts: 5
+            back-off-initial-interval: 1000
+            back-off-max-interval: 10000
+            back-off-multiplier: 2.0
         processCustomerCreated-out-0:
           destination: decision-topic
 #      schemaRegistryClient:
 #        endpoint: "http://127.0.0.1:8081"
+
 server:
   port: 8282
 
