@@ -1,4 +1,4 @@
-package com.github.bruce_mig.decision.service.imp;
+package com.github.bruce_mig.decision.service.impl;
 
 import com.github.bruce_mig.decision.domain.Decision;
 import com.github.bruce_mig.decision.domain.SSN;
@@ -11,11 +11,11 @@ import java.time.LocalDate;
 
 @Service
 @Slf4j
-public class DecisionMakerServiceImp implements DecisionMakerService {
+public class DecisionMakerServiceImpl implements DecisionMakerService {
 
     private final DecisionRepository decisionRepository;
 
-    public DecisionMakerServiceImp(DecisionRepository decisionRepository) {
+    public DecisionMakerServiceImpl(DecisionRepository decisionRepository) {
         this.decisionRepository = decisionRepository;
     }
 
