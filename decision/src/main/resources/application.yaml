@@ -15,21 +15,16 @@ spring:
         dialect: org.hibernate.dialect.MySQLDialect
   cloud:
     function:
-      definition: handleCustomerCreated
+      definition: processCustomerCreated
     stream:
       bindings:
-        handleCustomerCreated-in-0:
+        processCustomerCreated-in-0:
           destination: customer-topic
-#          handleCustomerCreated-in-0:
-#            consumer:
-#              configuration:
-#                value:
-#                  serializer: org.springframework.kafka.support.serializer.JsonSerializer
-        binder:
-          brokers:
-            - localhost:9092
-      schemaRegistryClient:
-        endpoint: "http://127.0.0.1:8081"
+          group: decision-microservice
+        processCustomerCreated-out-0:
+          destination: decision-topic
+#      schemaRegistryClient:
+#        endpoint: "http://127.0.0.1:8081"
 server:
   port: 8282
 

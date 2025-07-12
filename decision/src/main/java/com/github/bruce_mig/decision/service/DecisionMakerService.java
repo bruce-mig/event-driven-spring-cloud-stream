@@ -1,7 +1,9 @@
 package com.github.bruce_mig.decision.service;
 
+import com.github.bruce_mig.decision.domain.Decision;
+
 import java.time.LocalDate;
 
 public interface DecisionMakerService {
-    void decide(Integer ssn, LocalDate birthDate);
+    Decision decide(Integer ssn, LocalDate birthDate);
 }

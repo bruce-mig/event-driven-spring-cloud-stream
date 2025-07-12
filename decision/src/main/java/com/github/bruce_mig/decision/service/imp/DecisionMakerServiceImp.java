@@ -20,9 +20,10 @@ public class DecisionMakerServiceImp implements DecisionMakerService {
     }
 
     @Override
-    public void decide(Integer ssn, LocalDate birthDate) {
+    public Decision decide(Integer ssn, LocalDate birthDate) {
         Decision decision = Decision.decide(SSN.create(ssn), birthDate);
         Decision decisionCreated = decisionRepository.save(decision);
         log.info("The decision is: {}", decisionCreated);
+        return decision;
     }
 }
