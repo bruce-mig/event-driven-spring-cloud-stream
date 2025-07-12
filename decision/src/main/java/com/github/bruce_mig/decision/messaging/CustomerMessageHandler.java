@@ -1,6 +1,7 @@
 package com.github.bruce_mig.decision.messaging;
 
 import com.github.bruce_mig.decision.domain.Decision;
+import com.github.bruce_mig.decision.exception.RetryableException;
 import com.github.bruce_mig.decision.messaging.event.CustomerDTO;
 import com.github.bruce_mig.decision.messaging.event.CustomerEvent;
 import com.github.bruce_mig.decision.service.DecisionMakerService;
@@ -21,11 +22,6 @@ public class CustomerMessageHandler {
         this.decisionMakerService = decisionMakerService;
     }
 
-//    @Bean
-//    public Consumer<CustomerEvent.CustomerCreated> handleCustomerCreated(){
-//        return this::handle;
-//    }
-
     private void handle(CustomerEvent.CustomerCreated customerCreated){
         log.info("consuming the event: {}", customerCreated);
         CustomerDTO customer = customerCreated.customer();
@@ -37,6 +33,12 @@ public class CustomerMessageHandler {
         return customerCreated -> {
             log.info("Processing (transforming) the event: {}", customerCreated);
             CustomerDTO customer = customerCreated.customer();
+            //consuming an API which gives timeout
+/*            if (customer.firstName().startsWith("N")){
+                throw new IllegalStateException("the customer is invalid");
+            } else if (customer.firstName().startsWith("F")) {
+                throw new RetryableException("this exception is retryable");
+            }*/
             Decision decision = decisionMakerService.decide(customer.ssn(), customer.birthDate());
             log.info("producing the decision: {}", decision);
             return decision;

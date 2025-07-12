@@ -26,8 +26,17 @@ spring:
             back-off-initial-interval: 1000
             back-off-max-interval: 10000
             back-off-multiplier: 2.0
+            retryable-exceptions:
+              com.github.bruce_mig.decision.exception.RetryableException: true
+              java.lang.IllegalStateException: false
         processCustomerCreated-out-0:
           destination: decision-topic
+      kafka:
+        bindings:
+          processCustomerCreated-in-0:
+            consumer:
+              enable-dlq: true
+              dlq-name: decision-dlq
 #      schemaRegistryClient:
 #        endpoint: "http://127.0.0.1:8081"
 
