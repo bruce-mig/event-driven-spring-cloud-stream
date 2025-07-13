@@ -1,6 +1,6 @@
 spring:
   application:
-    name: decision
+    name: decision-microservice
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/customer
@@ -15,30 +15,15 @@ spring:
         dialect: org.hibernate.dialect.MySQLDialect
   cloud:
     function:
-      definition: processCustomerCreated
+      definition: functionRouter
     stream:
+      function:
+        routing:
+          enabled: true
       bindings:
-        processCustomerCreated-in-0:
+        functionRouter-in-0:
           destination: customer-topic
-          group: decision-microservice
-          consumer:
-            max-attempts: 5
-            back-off-initial-interval: 1000
-            back-off-max-interval: 10000
-            back-off-multiplier: 2.0
-            retryable-exceptions:
-              com.github.bruce_mig.decision.exception.RetryableException: true
-              java.lang.IllegalStateException: false
-        processCustomerCreated-out-0:
-          destination: decision-topic
-      kafka:
-        bindings:
-          processCustomerCreated-in-0:
-            consumer:
-              enable-dlq: true
-              dlq-name: decision-dlq
-#      schemaRegistryClient:
-#        endpoint: "http://127.0.0.1:8081"
+          group: ${spring.application.name}
 
 server:
   port: 8282
