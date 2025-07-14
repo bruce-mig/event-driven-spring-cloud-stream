@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Past;
 import java.time.LocalDate;
 
 public record CustomerDTO(
+        Long id,
         @NotBlank(message = "first name cannot be blank")
         String firstName,
         @NotBlank(message = "last name cannot be blank")

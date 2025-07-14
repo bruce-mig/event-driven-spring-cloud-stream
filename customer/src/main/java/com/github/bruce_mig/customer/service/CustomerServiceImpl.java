@@ -1,12 +1,15 @@
 package com.github.bruce_mig.customer.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.bruce_mig.customer.domain.Customer;
 import com.github.bruce_mig.customer.domain.EmailAddress;
+import com.github.bruce_mig.customer.domain.OutboxMessage;
 import com.github.bruce_mig.customer.messaging.event.CustomerDTO;
 import com.github.bruce_mig.customer.messaging.event.CustomerEvent;
 import com.github.bruce_mig.customer.repository.CustomerRepository;
+import com.github.bruce_mig.customer.repository.OutboxMessageRepository;
 import jakarta.transaction.Transactional;
-import org.springframework.kafka.support.KafkaHeaders;
+import lombok.SneakyThrows;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
@@ -22,10 +25,14 @@ public class CustomerServiceImpl implements CustomerService{
 
     private final CustomerRepository customerRepository;
     private final Sinks.Many<Message<?>> customerProducer;
+    private final ObjectMapper objectMapper;
+    private final OutboxMessageRepository outboxMessageRepository;
 
-    public CustomerServiceImpl(CustomerRepository customerRepository, Sinks.Many<Message<?>> customerProducer) {
+    public CustomerServiceImpl(CustomerRepository customerRepository, Sinks.Many<Message<?>> customerProducer, ObjectMapper objectMapper, OutboxMessageRepository outboxMessageRepository) {
         this.customerRepository = customerRepository;
         this.customerProducer = customerProducer;
+        this.objectMapper = objectMapper;
+        this.outboxMessageRepository = outboxMessageRepository;
     }
 
     private static CustomerEvent.CustomerCreated mapToEvent(Customer customerCreated) {
@@ -35,19 +42,22 @@ public class CustomerServiceImpl implements CustomerService{
                 CustomerMapper.mapToCustomerDto(customerCreated));
     }
 
+    @SneakyThrows
     @Override
     @Transactional
     public Customer create(final Customer customer) {
         Customer customerCreated = customerRepository.save(customer);
+        CustomerDTO customerDTO = CustomerMapper.mapToCustomerDto(customerCreated);
 
-        CustomerEvent.CustomerCreated customerCreatedEvent = mapToEvent(customerCreated);
+        String payload = objectMapper.writeValueAsString(customerDTO);
 
-        var customerCreatedMessage = MessageBuilder.withPayload(customerCreatedEvent)
-                        .setHeader(HEADER_NAME, "CustomerCreated")
-                        .setHeader(KafkaHeaders.KEY, String.valueOf(customerCreatedEvent.customerId()).getBytes())
-                        .build();
+        var outboxMessage = OutboxMessage.builder()
+                .eventType("CustomerCreated")
+                .payload(payload)
+                .build();
 
-        customerProducer.tryEmitNext(customerCreatedMessage);
+        outboxMessageRepository.save(outboxMessage);
+
         return customerCreated;
     }
 
@@ -67,7 +77,9 @@ public class CustomerServiceImpl implements CustomerService{
 
     interface CustomerMapper{
         static CustomerDTO mapToCustomerDto(final Customer customerCreated){
-            return new CustomerDTO(customerCreated.getFirstName().getValue(),
+            return new CustomerDTO(
+                    customerCreated.getId(),
+                    customerCreated.getFirstName().getValue(),
                     customerCreated.getLastName().getValue(),
                     customerCreated.getBirthDate().getValue(),
                     customerCreated.getEmailAddress().getValue(),
