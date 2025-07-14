@@ -1,5 +1,6 @@
 package com.github.bruce_mig.decision.integration;
 
+import com.github.bruce_mig.decision.config.IntegrationTestBaseConfig;
 import com.github.bruce_mig.decision.domain.Decision;
 import com.github.bruce_mig.decision.enumerated.State;
 import com.github.bruce_mig.decision.repository.DecisionRepository;
@@ -21,7 +22,7 @@ import java.util.Optional;
         ids = "com.github.bruce-mig:customer:+:stubs"
 )
 @Slf4j
-public class HandleCustomerCreatedEventIT {
+class HandleCustomerCreatedEventIT extends IntegrationTestBaseConfig {
 
     @Autowired
     private StubFinder stubFinder;
@@ -32,7 +33,7 @@ public class HandleCustomerCreatedEventIT {
 
     @Test
     void handleEvent(){
-        this.stubFinder.trigger("shouldPublishCustomerCreated");
+        this.stubFinder.trigger("shouldPublishCustomerCreated_label");
 
         Awaitility.await().untilAsserted(()-> {
             Optional<Decision> optionalDecision = this.decisionRepository.findAll().stream().findAny();
