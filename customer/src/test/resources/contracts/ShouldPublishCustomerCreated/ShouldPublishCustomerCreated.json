@@ -1,0 +1,10 @@
+{
+  "customerId": 1,
+  "customer": {
+    "firstName": "Pierre",
+    "lastName": "Bourne",
+    "birthDate": "1996-12-20",
+    "emailAddress": "pb@gmail.com",
+    "ssn": 888888888
+  }
+}
