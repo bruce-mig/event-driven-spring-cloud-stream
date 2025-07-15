@@ -1,3 +1,4 @@
+/*
 package com.github.bruce_mig.customer.messaging;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -72,3 +73,4 @@ public class OutboxMessagePublisher {
     }
 
 }
+*/
