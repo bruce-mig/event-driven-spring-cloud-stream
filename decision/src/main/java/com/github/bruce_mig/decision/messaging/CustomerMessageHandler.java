@@ -26,7 +26,7 @@ public class CustomerMessageHandler {
     @Bean
     public Consumer<Message<CustomerEvent.CustomerCreated>> handleCustomerCreated(){
         return customerCreatedMessage -> {
-            log.info("(customerCreated) message handler is handling message od type -------> {}", customerCreatedMessage.getHeaders()  // todo: check for null
+            log.info("(customerCreated) message handler is handling message of type -------> {}", customerCreatedMessage.getHeaders()  // todo: check for null
                     .get("X-EVENT-TYPE"));
             CustomerEvent.CustomerCreated customerCreated = customerCreatedMessage.getPayload();
             CustomerDTO customer = customerCreated.customer();
