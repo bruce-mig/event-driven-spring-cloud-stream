@@ -23,7 +23,7 @@ public class CustomerController {
         Customer customer = CustomerMapper.mapToCustomer(customerDto);
         Customer createdCustomer = customerService.create(customer);
 
-        return ResponseEntity.ok(createdCustomer); // dont expose domain model outside app
+        return ResponseEntity.ok(createdCustomer); // don't expose domain model outside app
     }
 
     @PatchMapping("/{customerId}/email")
