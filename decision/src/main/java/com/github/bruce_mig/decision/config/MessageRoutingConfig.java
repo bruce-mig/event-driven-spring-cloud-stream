@@ -38,9 +38,7 @@ public class MessageRoutingConfig {
 
     @Bean
     public Consumer<Message<?>> unknownEvent(){
-        return message -> {
-            log.warn("consuming unknown event, so the application will discard it: {}", message.getHeaders());
-        };
+        return message -> log.warn("consuming unknown event, so the application will discard it: {}", message.getHeaders());
     }
 
 
