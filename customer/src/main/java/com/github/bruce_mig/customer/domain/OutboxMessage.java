@@ -23,7 +23,7 @@ public class OutboxMessage {
     @Column(nullable = false)
     private String eventType;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
+    @Column(nullable = false, columnDefinition = "JSON")
     private String payload;
 
     @Builder.Default
