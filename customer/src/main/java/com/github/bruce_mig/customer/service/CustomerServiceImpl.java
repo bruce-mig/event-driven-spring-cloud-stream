@@ -64,7 +64,7 @@ public class CustomerServiceImpl implements CustomerService{
     @Override
     public void changeEmail(final Long customerId, final EmailAddress emailAddress) {
         Customer customer = customerRepository.findById(customerId)
-                .orElseThrow(() -> new IllegalArgumentException(String.format("Couldn't find a customr by id: %s", customerId)));
+                .orElseThrow(() -> new IllegalArgumentException(String.format("Couldn't find a customer by id: %s", customerId)));
         customer.changeEmail(emailAddress);
         customerRepository.save(customer);
 
