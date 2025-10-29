@@ -54,13 +54,15 @@ public class CustomerServiceImpl implements CustomerService{
     @Override
     public void changeEmail(final Long customerId, final EmailAddress emailAddress) {
         Customer customer = customerRepository.findById(customerId)
-                .orElseThrow(() -> new IllegalArgumentException(String.format("Couldn't find a customr by id: %s", customerId)));
+                .orElseThrow(() -> new IllegalArgumentException(String.format("Couldn't find a customer by id: %s", customerId)));
         customer.changeEmail(emailAddress);
         customerRepository.save(customer);
 
         var customerEmailChangedEvent = new CustomerEvent.EmailChanged(customer.getId(), Instant.now(), CustomerMapper.mapToCustomerDto(customer));
         var customerEmailChangedMessage = MessageBuilder.withPayload(customerEmailChangedEvent)
-                .setHeader(HEADER_NAME, "EmailChanged").build();
+                .setHeader(HEADER_NAME, "EmailChanged")
+                .setHeader(KafkaHeaders.KEY, String.valueOf(customer.getId()).getBytes())
+                .build();
 
         customerProducer.tryEmitNext(customerEmailChangedMessage);
     }
