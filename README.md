@@ -17,6 +17,10 @@
 
 ---
 
+### Functional-router: 
+
+`git checkout function-router-SpEL` or `git checkout function-router-java`
+
 # Debezium
 
  Check if Debezium is running at `http://localhost:8083/`
